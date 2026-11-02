@@ -53,7 +53,6 @@ public sealed class ModbusSlotReader : ISlotReader, IDisposable
                 if (!await ReadExactlyAsync(header, timeout.Token))
                     return FailedSample(address);
 
-                // Modbus exception responses contain function code with bit 7 set.
                 if (header[1] == (ReadHoldingRegisters | 0x80))
                 {
                     var exceptionAndCrc = new byte[2];
