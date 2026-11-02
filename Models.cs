@@ -76,7 +76,7 @@ public sealed class SlotState
             return;
         }
 
-        // Noise is checked only after a complete sample window has been collected.
+
         if (maxAllowedNoise.HasValue && _recentSamples.Count == SampleWindowSize)
         {
             NoisePpm = CalculateStandardDeviation(_recentSamples);
@@ -91,7 +91,6 @@ public sealed class SlotState
         if (Status != TestStatus.Running)
             return;
 
-        // A device that never returned a valid measurement cannot pass the test.
         Status = SuccessfulSampleCount > 0
             ? TestStatus.Passed
             : TestStatus.FailedCommunication;
@@ -112,7 +111,6 @@ public sealed class BurnInOptions
     public TimeSpan PollInterval { get; init; } = TimeSpan.FromSeconds(2);
     public double MaxAllowedDriftPpm { get; init; } = 3.0;
 
-    // Leave null until the acceptable noise limit has been specified for the sensor.
     public double? MaxAllowedNoisePpm { get; init; }
 
     public int CommunicationErrorLimit { get; init; } = 5;
